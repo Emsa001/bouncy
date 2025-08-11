@@ -13,7 +13,7 @@ export default function Root() {
 
             <p className="text-purple-100 absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 opacity-30 hover:opacity-100 cursor-pointer">
                 Made with{" "}
-                <a href="https://ft_react.emanuelscura.me" target="_blank" className="hover:font-bold duration-200">
+                <a href="https://react.emanuelscura.me" target="_blank" className="hover:font-bold duration-200">
                     <ShinyText gradient="from-indigo-500 to-blue-500" text="ft_react" />
                 </a>
                 {" "}by{" "}
