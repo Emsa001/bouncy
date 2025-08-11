@@ -160,7 +160,7 @@ export const Ball = ({
     return (
         <div
             ref={ballRef}
-            className={`opacity-0 w-24 h-24 rounded-full absolute will-change-transform touch-none ${className}`}
+            className={`z-10 opacity-0 w-24 h-24 rounded-full absolute will-change-transform touch-none ${className}`}
         />
     );
 };

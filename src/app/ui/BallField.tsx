@@ -35,7 +35,7 @@ export default function BallField() {
     }
 
     return (
-        <div className="w-full h-full absolute top-0 overflow-hidden z-20" ref={bound}>
+        <div className="w-full h-full absolute top-0 overflow-hidden" ref={bound}>
             {balls.map((id) => {
                 const gradient = pickGradient();
                 return <Ball key={id} bound={bound} className={gradient} maxX={maxX} maxY={maxY} />;
