@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
+import { getRarityType, IBall } from "../model/useBalls";
+import confetti from "canvas-confetti";
 
 gsap.registerPlugin(Draggable, InertiaPlugin);
 
-interface BallProps {
-    className?: string;
+interface BallElementProps {
+    ball: IBall;
     bound?: { current: HTMLDivElement | null };
     maxX?: number;
     maxY?: number;
@@ -15,12 +17,12 @@ interface BallProps {
 const minOpacity = 0.3;
 const maxOpacity = 0.9;
 
-export const Ball = ({
-    className = "bg-gradient-to-br from-red-400 to-pink-500",
+export const BallElement = ({
+    ball,
     bound,
     maxX = window.innerWidth,
     maxY = window.innerHeight,
-}: BallProps) => {
+}: BallElementProps) => {
     const ballRef = useRef<HTMLDivElement | null>(null);
 
     const throwBall = () => {
@@ -46,16 +48,16 @@ export const Ball = ({
     };
 
     useEffect(() => {
-        const ball = ballRef.current;
-        if (!ball) return;
+        const ballDiv = ballRef.current;
+        if (!ballDiv) return;
 
-        ball.style.opacity = `${maxOpacity}`;
+        ballDiv.style.opacity = `${maxOpacity}`;
 
         gsap.defaults({
             overwrite: "auto",
         });
 
-        gsap.set(ball, {
+        gsap.set(ballDiv, {
             xPercent: -50,
             yPercent: -50,
             x: maxX / 2,
@@ -63,6 +65,24 @@ export const Ball = ({
         });
 
         throwBall();
+
+        // Confetti effect for new balls
+        if (ball.new) {
+            // Timeout to ensure DOM is painted and positioned
+            setTimeout(() => {
+                const rect = ballDiv.getBoundingClientRect();
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    startVelocity: 30,
+                    origin: {
+                        x: (rect.left + rect.width / 2) / window.innerWidth,
+                        y: (rect.top + rect.height / 2) / window.innerHeight,
+                    },
+                    zIndex: 9999,
+                });
+            }, 150);
+        }
     }, []);
 
     useEffect(() => {
@@ -157,10 +177,29 @@ export const Ball = ({
         };
     }, [maxX, maxY, bound]);
 
+    const showRarity = () => {
+        if (!ballRef.current) return;
+        ballRef.current.classList.remove("text-transparent");
+        ballRef.current.classList.add("text-white");
+
+        setTimeout(() => {
+            if (!ballRef.current) return;
+            ballRef.current.classList.remove("text-white");
+            ballRef.current.classList.add("text-transparent");
+        }, 1500);
+    };
+
+    useEffect(() => {
+        showRarity();
+    }, [])
+
     return (
         <div
             ref={ballRef}
-            className={`z-10 opacity-0 w-24 h-24 rounded-full absolute will-change-transform touch-none ${className}`}
-        />
+            onContextMenu={showRarity}
+            className={`z-10 opacity-0 w-24 h-24 rounded-full absolute will-change-transform touch-none ${ball.className} flex items-center justify-center text-transparent duration-100`}
+        >
+            {getRarityType(ball) || "common"}
+        </div>
     );
 };

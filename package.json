@@ -11,6 +11,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@types/canvas-confetti": "^1.9.0",
         "@types/lodash": "^4.17.16",
         "@types/node": "^22.13.2",
         "@types/webpack-env": "^1.18.8",
@@ -30,6 +31,7 @@
     "dependencies": {
         "@tailwindcss/postcss": "^4.1.11",
         "axios": "^1.9.0",
+        "canvas-confetti": "^1.9.3",
         "dotenv": "^16.5.0",
         "gsap": "^3.13.0",
         "html-webpack-plugin": "^5.6.3",
