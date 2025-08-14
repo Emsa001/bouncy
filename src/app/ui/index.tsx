@@ -5,13 +5,16 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 import { ShinyText } from "./Shiny";
 import BallField from "./BallField";
-import { allBall } from "../model/useBalls";
+import { allBall } from "../model/balls";
 
 gsap.registerPlugin(MotionPathPlugin);
 export default function LandingSection() {
     const [dropped] = useLocalStorage("dropped", []);
     const [roll, setRoll] = useState(false);
-    const [specialDrop, setSpecialDrop] = useState<null | { name: string; rarityType: string }>(null);
+    const [unlocked, setUnlocked] = useState(false);
+    const [specialDrop, setSpecialDrop] = useState<null | { name: string; rarityType: string }>(
+        null
+    );
 
     const titleRef = useRef<HTMLHeadingElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -65,7 +68,9 @@ export default function LandingSection() {
                     yoyo: true,
                     duration: 0.04,
                     ease: "power1.inOut",
-                    onComplete: () => { gsap.set("body", { x: 0 }); },
+                    onComplete: () => {
+                        gsap.set("body", { x: 0 });
+                    },
                 }
             );
             setTimeout(() => setSpecialDrop(null), 2200);
@@ -75,10 +80,10 @@ export default function LandingSection() {
     }, []);
 
     return (
-        <section className="relative w-full h-full">
+        <section className="relative w-full h-full select-none">
             <div className="absolute top-[75%] left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-indigo-500/20 rounded-full blur-[80px]" />
 
-            {roll && <BallField />}
+            {roll && <BallField unlocked={unlocked} />}
 
             {/* Special Drop Overlay */}
             {specialDrop && (
@@ -94,10 +99,22 @@ export default function LandingSection() {
                         }
                         style={
                             specialDrop.rarityType === "legendary"
-                                ? { textShadow: "0 0 40px #facc15, 0 0 80px #fde047, 0 0 120px #fef08a", letterSpacing: "0.1em" }
+                                ? {
+                                      textShadow:
+                                          "0 0 40px #facc15, 0 0 80px #fde047, 0 0 120px #fef08a",
+                                      letterSpacing: "0.1em",
+                                  }
                                 : specialDrop.rarityType === "very-rare"
-                                ? { textShadow: "0 0 40px #a855f7, 0 0 80px #c084fc, 0 0 120px #f0abfc", letterSpacing: "0.1em" }
-                                : { textShadow: "0 0 40px #38bdf8, 0 0 80px #0ea5e9, 0 0 120px #7dd3fc", letterSpacing: "0.1em" }
+                                ? {
+                                      textShadow:
+                                          "0 0 40px #a855f7, 0 0 80px #c084fc, 0 0 120px #f0abfc",
+                                      letterSpacing: "0.1em",
+                                  }
+                                : {
+                                      textShadow:
+                                          "0 0 40px #38bdf8, 0 0 80px #0ea5e9, 0 0 120px #7dd3fc",
+                                      letterSpacing: "0.1em",
+                                  }
                         }
                     >
                         {specialDrop.rarityType === "legendary"
@@ -123,9 +140,12 @@ export default function LandingSection() {
 
                 <button
                     ref={buttonRef}
-                    onClick={() => setRoll(!roll)}
+                    onClick={() => {
+                        setUnlocked(false);
+                        setRoll(!roll);
+                    }}
                     className="opacity-0 relative z-50 mt-10 py-4 px-10 text-lg font-semibold rounded-xl shadow-xl transition-all duration-300
-                        bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500
+                    bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500
                         bg-[length:200%_200%] hover:bg-[position:100%_0%]
                         hover:scale-105 active:scale-95 text-white"
                 >
@@ -133,7 +153,11 @@ export default function LandingSection() {
                 </button>
                 <span
                     ref={unlockedRef}
-                    className="mt-4 block text-sm font-medium tracking-tight text-indigo-200/80 drop-shadow-sm"
+                    className="mt-4 block text-sm font-medium tracking-tight text-indigo-200/80 drop-shadow-sm cursor-pointer"
+                    onClick={() => {
+                        setRoll(!roll);
+                        setUnlocked(true);
+                    }}
                 >
                     Unlocked <span className="text-indigo-100/90">{dropped.length}</span>
                     <span className="mx-0.5 text-indigo-100/40">/</span>

@@ -1,16 +1,24 @@
-import React, { useRef } from "react";
+import React, { useLocalStorage, useRef } from "react";
 import { BallElement } from "./BallElement";
 import { useBalls } from "../model/useBalls";
 
-export default function BallField() {
+export default function BallField({ unlocked }: { unlocked: boolean }) {
     const bound = useRef<HTMLDivElement | null>(null);
 
-    const { maxX, maxY, balls } = useBalls(10, bound);
+    const { maxX, maxY, balls } = useBalls(10, bound, unlocked);
 
     return (
         <div className="w-full h-full absolute top-0 overflow-hidden" ref={bound}>
             {balls.map((ball) => {
-                return <BallElement key={ball.name} bound={bound} ball={ball} maxX={maxX} maxY={maxY} />;
+                return (
+                    <BallElement
+                        key={ball.name}
+                        bound={bound}
+                        ball={ball}
+                        maxX={maxX}
+                        maxY={maxY}
+                    />
+                );
             })}
         </div>
     );
