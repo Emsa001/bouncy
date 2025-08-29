@@ -214,13 +214,13 @@ export const allBall: IBall[] = [
         name: "sunset-lagoon",
         className:
             "bg-gradient-to-t from-cyan-400 via-rose-500 to-amber-700 animate-pulse shadow-xl",
-        rarity: 0.02,
+        rarity: 0.03,
     },
     {
         name: "mystic-bloom",
         className:
             "bg-gradient-to-bl from-violet-300 via-emerald-400 to-pink-500 shadow-2xl shadow-violet-400/40",
-        rarity: 0.01,
+        rarity: 0.03,
     },
     {
         name: "gilded-rose",
@@ -243,13 +243,13 @@ export const allBall: IBall[] = [
         name: "aurora-tide",
         className:
             "bg-gradient-to-br from-green-400 via-cyan-500 to-blue-600 animate-gradient-x shadow-lg shadow-cyan-400/50",
-        rarity: 0.015,
+        rarity: 0.03,
     },
     {
         name: "starlight-bloom",
         className:
             "bg-gradient-to-r from-purple-800 via-violet-900 to-indigo-700 animate-pulse shadow-2xl",
-        rarity: 0.005,
+        rarity: 0.03,
         particles: true
     },
 ];

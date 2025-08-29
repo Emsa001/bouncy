@@ -60,7 +60,7 @@ export const useBalls = (
 
                 return [...prev, ballWithNew];
             });
-        }, 200);
+        }, 10);
 
         return () => clearInterval(interval);
     }, []);

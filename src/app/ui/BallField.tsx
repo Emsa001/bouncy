@@ -5,7 +5,7 @@ import { useBalls } from "../model/useBalls";
 export default function BallField({ unlocked }: { unlocked: boolean }) {
     const bound = useRef<HTMLDivElement | null>(null);
 
-    const { maxX, maxY, balls } = useBalls(10, bound, unlocked);
+    const { maxX, maxY, balls } = useBalls(500, bound, unlocked);
 
     return (
         <div className="w-full h-full absolute top-0 overflow-hidden" ref={bound}>
